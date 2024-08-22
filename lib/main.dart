@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:martin_cv/margins.dart';
+import 'package:martin_cv/navigation_config.dart';
 import 'package:martin_cv/theme/theme.g.dart';
 
+import 'martins_drawer.dart';
+
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.remove();
   runApp(const MyApp());
 }
 
@@ -13,11 +14,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: kLightTheme,
-        darkTheme: kDarkTheme,
-        themeMode: ThemeMode.dark,
-        home: const MyHomePage(),
+    return MaterialApp.router(
+      routerConfig: router,
+      theme: kLightTheme,
+      darkTheme: kDarkTheme,
+      themeMode: ThemeMode.dark,
     );
   }
 }
@@ -30,38 +31,43 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Seal Studios'),
+      appBar: AppBar(),
+      drawer: const MartinsDrawer(),
+      body: Column(
+        children: <Widget>[
+          _buildHeader(),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+    );
+  }
+
+  Widget _buildHeader() {
+    return ConstrainedBox(
+      constraints: const BoxConstraints.expand(height: 400),
+      child: Stack(
+        alignment: AlignmentDirectional.topCenter,
+        children: [
+          OverflowBox(
+            child: Image.asset(
+              width: double.infinity,
+              height: 400,
+              'assets/images/header_image.jpg',
+              fit: BoxFit.cover,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Image.asset(
+                'assets/images/seal_studios_logo.png',
+              ),
+              kXLargeMargin,
+            ],
+          ),
+        ],
       ),
     );
   }
