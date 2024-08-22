@@ -15,7 +15,7 @@ class MartinsDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          kMediumMargin,
+          kXLargeMargin,
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
@@ -23,6 +23,9 @@ class MartinsDrawer extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
+          kSmallMargin,
+          _buildDivider(),
+          kSmallMargin,
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -44,21 +47,25 @@ class MartinsDrawer extends StatelessWidget {
               ),
             ),
           ),
-          const Column(
+          Column(
             children: [
-              Divider(
-                thickness: 2,
-                indent: 16,
-                endIndent: 16,
-                height: 2,
-              ),
+              _buildDivider(),
               kLargeMargin,
-              Text('Version 1.0.0'),
+              const Text('Version 1.0.0'),
               kLargeMargin,
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return const Divider(
+      thickness: 2,
+      indent: 16,
+      endIndent: 16,
+      height: 2,
     );
   }
 }

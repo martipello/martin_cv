@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:martin_cv/extensions/media_query_context_extension.dart';
 import 'package:martin_cv/margins.dart';
 import 'package:martin_cv/navigation_config.dart';
 import 'package:martin_cv/theme/theme.g.dart';
 
-import 'martins_drawer.dart';
+import 'widgets/martins_drawer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,15 +46,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildHeader() {
+    final isLargeScreen = MediaQuery.of(context).isLargeScreen;
+    final headerHeight = isLargeScreen ? 400.0 : 200.0;
     return ConstrainedBox(
-      constraints: const BoxConstraints.expand(height: 400),
+      constraints: BoxConstraints.expand(
+        height: headerHeight,
+      ),
       child: Stack(
         alignment: AlignmentDirectional.topCenter,
         children: [
           OverflowBox(
             child: Image.asset(
               width: double.infinity,
-              height: 400,
+              height: headerHeight,
               'assets/images/header_image.jpg',
               fit: BoxFit.cover,
             ),
