@@ -48,7 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 SliverOverlapInjector(
                   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 ),
-
                 SliverList(
                   delegate: SliverChildListDelegate(
                     List.generate(
@@ -86,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          titlePadding: const EdgeInsets.all( 8),
+          titlePadding: const EdgeInsets.all(8),
           background: _buildHeader(),
         ),
       ),
