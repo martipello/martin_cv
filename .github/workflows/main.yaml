@@ -41,6 +41,7 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter build web
+      - run: pwd
 
   deploy:
     environment:
