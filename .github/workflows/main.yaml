@@ -42,6 +42,7 @@ jobs:
       - run: flutter pub get
       - run: flutter build web
       - run: pwd
+      - run: ls
 
   deploy:
     environment:
@@ -55,7 +56,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: './build/web'
+          path: '/build/web'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
