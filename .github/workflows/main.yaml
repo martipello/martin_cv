@@ -21,13 +21,32 @@ permissions:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+#  build:
+#    # The type of runner that the job will run on
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Flutter action
+#        uses: subosito/flutter-action@v2.16.0
+#
+#      - name: Clone repository
+#        uses: actions/checkout@v4
+#      - name: Set up Flutter
+#        uses: subosito/flutter-action@v2
+#        with:
+#          channel: stable # or: beta, master (or main)
+#      - run: flutter --version
+#      - run: flutter pub get
+#      - run: flutter build web
+#      - run: pwd
+#      - run: ls
 
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-      - name: Flutter action
-        uses: subosito/flutter-action@v2.16.0
 
       - name: Clone repository
         uses: actions/checkout@v4
@@ -40,17 +59,7 @@ jobs:
       - run: flutter build web
       - run: pwd
       - run: ls
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Clone repository
-        uses: actions/checkout@v4
-      - run: pwd
+      - run: cd build
       - run: ls
       - name: Setup Pages
         uses: actions/configure-pages@v5
