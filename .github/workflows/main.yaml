@@ -24,23 +24,23 @@ concurrency:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-#  build:
-#    # The type of runner that the job will run on
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Flutter action
-#        uses: subosito/flutter-action@v2.16.0
-#
-#      - name: Clone repository
-#        uses: actions/checkout@v4
-#      - name: Set up Flutter
-#        uses: subosito/flutter-action@v2
-#        with:
-#          channel: stable # or: beta, master (or main)
-#      - run: flutter --version
-#      - run: flutter pub get
-#      - run: flutter build web
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Flutter action
+        uses: subosito/flutter-action@v2.16.0
+
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable # or: beta, master (or main)
+      - run: flutter --version
+      - run: flutter pub get
+      - run: flutter build web
 
   deploy:
     environment:
@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: 'build/web'
+          path: './build/web'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
