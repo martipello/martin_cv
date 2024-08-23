@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:martin_cv/extensions/context_extensions.dart';
 import 'package:martin_cv/extensions/media_query_context_extension.dart';
 import 'package:martin_cv/navigation_config.dart';
 import 'package:martin_cv/theme/theme.g.dart';
+import 'package:martin_cv/widgets/view_constraint.dart';
 
+import 'margins.dart';
 import 'widgets/martins_drawer.dart';
 
 void main() {
@@ -41,28 +44,54 @@ class _MyHomePageState extends State<MyHomePage> {
             _buildSliverHeader(nestedContext),
           ];
         },
-        body: Builder(
-          builder: (context) {
-            return CustomScrollView(
-              slivers: [
-                SliverOverlapInjector(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    List.generate(
-                      20,
-                      (index) {
-                        return Text('List item $index');
-                      },
-                    ),
+        body: _buildContent(),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return Builder(
+      builder: (context) {
+        return CustomScrollView(
+          slivers: [
+            SliverOverlapInjector(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(16.0),
+              sliver: SliverToBoxAdapter(
+                child: ViewConstraint(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      kMediumMargin,
+                      Text(
+                        'Welcome to Seal Studios',
+                        style: context.text.titleLarge,
+                      ),
+                      kMediumMargin,
+                      Text(
+                        'We are a team of developers who are passionate about creating high-quality software. We are dedicated to providing the best possible service to our clients and we are always looking for new ways to improve our products.',
+                        style: context.text.bodyLarge,
+                      ),
+                      kMediumMargin,
+                      Text(
+                        'Our team is made up of experienced professionals who have worked on a wide range of projects, from small websites to large enterprise applications. We have the skills and expertise to handle any project, no matter how big or small.',
+                        style: context.text.bodyLarge,
+                      ),
+                      kMediumMargin,
+                      Text(
+                        'This application is under construction',
+                        style: context.text.bodyLarge,
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            );
-          },
-        ),
-      ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
