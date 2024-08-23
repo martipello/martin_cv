@@ -65,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       kMediumMargin,
+
                       Text(
                         'Welcome to Seal Studios',
                         style: context.text.titleLarge,
