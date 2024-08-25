@@ -1,16 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:martin_cv/extensions/context_extensions.dart';
 import 'package:martin_cv/extensions/media_query_context_extension.dart';
 import 'package:martin_cv/navigation_config.dart';
 import 'package:martin_cv/theme/theme.g.dart';
 import 'package:martin_cv/widgets/view_constraint.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'margins.dart';
-import 'widgets/martins_drawer.dart';
 
 void main() {
   runApp(const MyApp());
