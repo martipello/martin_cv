@@ -6,10 +6,12 @@ class MartinsExpansionTile<T> extends StatelessWidget {
     super.key,
     required this.title,
     required this.children,
+    this.initiallyExpanded = false,
   });
 
   final Widget title;
   final List<Widget> children;
+  final bool initiallyExpanded;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class MartinsExpansionTile<T> extends StatelessWidget {
         bottom: 16,
       ),
       title: title,
+      initiallyExpanded: initiallyExpanded,
       children: children,
     );
   }

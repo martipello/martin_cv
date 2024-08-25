@@ -36,16 +36,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const MartinsDrawer(),
-      body: NestedScrollView(
-        headerSliverBuilder: (nestedContext, innerScroll) {
-          return [
-            _buildSliverHeader(nestedContext),
-          ];
-        },
-        body: _buildContent(),
-      ),
+    return NestedScrollView(
+      headerSliverBuilder: (nestedContext, innerScroll) {
+        return [
+          _buildSliverHeader(nestedContext),
+        ];
+      },
+      body: _buildContent(),
     );
   }
 

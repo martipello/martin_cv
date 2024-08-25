@@ -1,13 +1,14 @@
 // ignore_for_file: avoid-passing-async-when-sync-expected
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:martin_cv/margins.dart';
-import 'package:martin_cv/navigation_config.dart';
-import 'package:martin_cv/privacy_policy.dart';
+
+typedef NavCallback = void Function(int index);
 
 class MartinsDrawer extends StatelessWidget {
-  const MartinsDrawer({super.key});
+  const MartinsDrawer({super.key, required this.onTap});
+
+  final NavCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +35,15 @@ class MartinsDrawer extends StatelessWidget {
                   ListTile(
                     title: const Text('Home'),
                     onTap: () {
-                      context.go(kHomeRoute);
+                      Scaffold.of(context).closeDrawer();
+                      onTap(0);
                     },
                   ),
                   ListTile(
                     title: const Text('Privacy Policy'),
                     onTap: () {
-                      context.go(kPrivacyPolicyRoute);
+                      Scaffold.of(context).closeDrawer();
+                      onTap(1);
                     },
                   ),
                 ],
