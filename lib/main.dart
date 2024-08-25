@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:martin_cv/extensions/context_extensions.dart';
 import 'package:martin_cv/extensions/media_query_context_extension.dart';
 import 'package:martin_cv/navigation_config.dart';
 import 'package:martin_cv/theme/theme.g.dart';
 import 'package:martin_cv/widgets/view_constraint.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'margins.dart';
 import 'widgets/martins_drawer.dart';
@@ -62,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       kMediumMargin,
-
                       Text(
                         'Welcome to Seal Studios',
                         style: context.text.titleLarge,
@@ -81,6 +84,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       Text(
                         'This application is under construction',
                         style: context.text.bodyLarge,
+                      ),
+                      kMediumMargin,
+                      GestureDetector(
+                        child: Text(
+                          'Privacy Policy',
+                          style: context.text.bodyLarge?.copyWith(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.blue,
+                          ),
+                        ),
+                        onTap: () {
+                          launchUrlString('https://www.sealstudios.co.uk/#/privacy_policy');
+                        },
                       ),
                     ],
                   ),
