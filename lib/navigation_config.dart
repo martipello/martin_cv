@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:martin_cv/app_frame.dart';
 import 'package:martin_cv/privacy_policy.dart';
+import 'package:martin_cv/projects/projects_page.dart';
 
 import 'main.dart';
 
@@ -24,6 +25,16 @@ final router = GoRouter(
               path: kHomeRoute,
               builder: (BuildContext context, GoRouterState state) {
                 return const MyHomePage();
+              },
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: kProjectsRoute,
+              builder: (BuildContext context, GoRouterState state) {
+                return const ProjectsPage();
               },
             ),
           ],

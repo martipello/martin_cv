@@ -33,6 +33,7 @@ class MartinsDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ListTile(
+                    leading: const Icon(Icons.home_outlined),
                     title: const Text('Home'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
@@ -40,10 +41,19 @@ class MartinsDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: const Text('Privacy Policy'),
+                    leading: const Icon(Icons.view_in_ar_outlined),
+                    title: const Text('Projects'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
                       onTap(1);
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.privacy_tip_outlined),
+                    title: const Text('Privacy Policy'),
+                    onTap: () {
+                      Scaffold.of(context).closeDrawer();
+                      onTap(2);
                     },
                   ),
                 ],

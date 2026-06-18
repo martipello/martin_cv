@@ -38,11 +38,18 @@ class AppFrame extends StatelessWidget {
             labelType: NavigationRailLabelType.all,
             destinations: const [
               NavigationRailDestination(
-                icon: Icon(Icons.home),
+                icon: Icon(Icons.home_outlined),
+                selectedIcon: Icon(Icons.home),
                 label: Text('Home'),
               ),
               NavigationRailDestination(
+                icon: Icon(Icons.view_in_ar_outlined),
+                selectedIcon: Icon(Icons.view_in_ar),
+                label: Text('Projects'),
+              ),
+              NavigationRailDestination(
                 icon: Icon(Icons.privacy_tip_outlined),
+                selectedIcon: Icon(Icons.privacy_tip),
                 label: Text('Privacy Policy'),
               ),
             ],
@@ -59,9 +66,9 @@ class AppFrame extends StatelessWidget {
 
   Widget _buildScaffoldWithNavigationDrawer(BuildContext context) {
     return Scaffold(
-      appBar: navigationShell.currentIndex != 0 ? AppBar(
-        title: const Text('Seal Studios'),
-      ) : null,
+      appBar: navigationShell.currentIndex != 0
+          ? AppBar(title: const Text('Seal Studios'))
+          : null,
       drawer: MartinsDrawer(onTap: onTap),
       body: navigationShell,
     );

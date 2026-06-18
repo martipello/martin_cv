@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:martin_cv/extensions/context_extensions.dart';
 import 'package:martin_cv/extensions/media_query_context_extension.dart';
+import 'package:martin_cv/home/home_page_content.dart';
 import 'package:martin_cv/navigation_config.dart';
 import 'package:martin_cv/theme/theme.g.dart';
-import 'package:martin_cv/widgets/view_constraint.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-
-import 'margins.dart';
 
 void main() {
   runApp(const MyApp());
@@ -54,51 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
             SliverOverlapInjector(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.all(16.0),
-              sliver: SliverToBoxAdapter(
-                child: ViewConstraint(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      kMediumMargin,
-                      Text(
-                        'Welcome to Seal Studios',
-                        style: context.text.titleLarge,
-                      ),
-                      kMediumMargin,
-                      Text(
-                        'We are a team of developers who are passionate about creating high-quality software. We are dedicated to providing the best possible service to our clients and we are always looking for new ways to improve our products.',
-                        style: context.text.bodyLarge,
-                      ),
-                      kMediumMargin,
-                      Text(
-                        'Our team is made up of experienced professionals who have worked on a wide range of projects, from small websites to large enterprise applications. We have the skills and expertise to handle any project, no matter how big or small.',
-                        style: context.text.bodyLarge,
-                      ),
-                      kMediumMargin,
-                      Text(
-                        'This application is under construction',
-                        style: context.text.bodyLarge,
-                      ),
-                      kMediumMargin,
-                      GestureDetector(
-                        child: Text(
-                          'Privacy Policy',
-                          style: context.text.bodyLarge?.copyWith(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.blue,
-                          ),
-                        ),
-                        onTap: () {
-                          launchUrlString('https://www.sealstudios.co.uk/#/privacy_policy');
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            const SliverToBoxAdapter(
+              child: HomePageContent(),
             ),
           ],
         );
