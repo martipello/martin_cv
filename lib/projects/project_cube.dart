@@ -246,6 +246,8 @@ class _ProjectCubeState extends State<ProjectCube> with SingleTickerProviderStat
                     project.imagePath,
                     width: 80,
                     height: 80,
+                    cacheWidth: 160,
+                    cacheHeight: 160,
                     fit: BoxFit.cover,
                   ),
                 ),

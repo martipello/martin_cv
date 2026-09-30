@@ -79,33 +79,35 @@ class _ProjectCardState extends State<_ProjectCard> {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 28),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color.alphaBlend(
-            project.primaryColor.withValues(alpha: 0.06),
-            cs.surface,
-          ),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: project.primaryColor.withValues(alpha: 0.22),
-            width: 1,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: project.primaryColor.withValues(alpha: 0.18),
-              blurRadius: 24,
-              offset: const Offset(0, 8),
+      child: RepaintBoundary(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Color.alphaBlend(
+              project.primaryColor.withValues(alpha: 0.06),
+              cs.surface,
             ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildHero(context, project),
-              _buildBody(context, project),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: project.primaryColor.withValues(alpha: 0.22),
+              width: 1,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: project.primaryColor.withValues(alpha: 0.18),
+                blurRadius: 24,
+                offset: const Offset(0, 8),
+              ),
             ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildHero(context, project),
+                _buildBody(context, project),
+              ],
+            ),
           ),
         ),
       ),
@@ -172,6 +174,8 @@ class _ProjectCardState extends State<_ProjectCard> {
                   project.imagePath,
                   width: 76,
                   height: 76,
+                  cacheWidth: 152,
+                  cacheHeight: 152,
                   fit: BoxFit.cover,
                 ),
               ),

@@ -24,7 +24,7 @@ final router = GoRouter(
             GoRoute(
               path: kHomeRoute,
               builder: (BuildContext context, GoRouterState state) {
-                return const MyHomePage();
+                return const HomeScreen();
               },
             ),
           ],
