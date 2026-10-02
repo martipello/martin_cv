@@ -22,12 +22,22 @@ class _Job {
     required this.period,
     required this.summary,
     required this.fullDetails,
+    this.appName,
+    this.appTagline,
+    this.appIconPath,
+    this.playStoreUrl,
+    this.appWebsiteUrl,
   });
   final String company;
   final String role;
   final String period;
   final String summary;
   final String fullDetails;
+  final String? appName;
+  final String? appTagline;
+  final String? appIconPath;
+  final String? playStoreUrl;
+  final String? appWebsiteUrl;
 }
 
 const _mainSkills = [
@@ -83,6 +93,12 @@ const _jobs = [
         'in the audit trail. Also got the native-first Flutter codebase building for web for the '
         'first time, replacing platform-locked dependencies with conditional web implementations '
         'and standing up the Docker/GitLab CI pipeline to deploy it.',
+    appName: 'Killik & Co: Save, Plan, Invest',
+    appTagline: 'The client wealth management app I work on day-to-day',
+    appIconPath: 'assets/images/killik_icon.png',
+    playStoreUrl:
+        'https://play.google.com/store/apps/details?id=com.killik.mykillik',
+    appWebsiteUrl: 'https://killik.com/',
   ),
   _Job(
     company: 'Spica Technologies',
@@ -95,7 +111,15 @@ const _jobs = [
         'After spending time at Word360 I moved back to Spica Technologies with a changed scope '
         'that included more planning and architectural decisions, contributing to engineer tribe '
         'meetings, solving complex issues with time zones and digital access, reviewing pull '
-        'requests, and generally supporting the team.',
+        'requests, and generally supporting the team — on the same Workplace Experience App '
+        '(since rebranded GemEx) described below.',
+    appName: 'GemEx (formerly Spica Workplace App)',
+    appTagline:
+        'White-label workplace booking app for enterprise facilities management',
+    appIconPath: 'assets/images/gemex_icon.png',
+    playStoreUrl:
+        'https://play.google.com/store/apps/details?id=uk.co.spicatech.luna.apps.spicaluna',
+    appWebsiteUrl: 'https://www.spicatech.co.uk/products/book/',
   ),
   _Job(
     company: 'Word360',
@@ -108,11 +132,21 @@ const _jobs = [
         'Word360 is an interpreting and translation company. I built their mobile applications '
         'from nothing for both Android and iOS using Flutter, managing stores, delivery, and '
         'analytics throughout.\n\n'
-        'The main app allows linguists to manage bookings, calendars, sign off and submit '
-        'completed work. It features biometric authentication, offline signing, document '
+        'The main app (Wordskii) allows linguists to manage bookings, calendars, sign off and '
+        'submit completed work. It features biometric authentication, offline signing, document '
         'uploading, and Google Maps integration.\n\n'
-        'I also built and delivered Wordskii Live — a video application allowing people to '
-        'instantly connect with interpreters on demand.',
+        'I also built and delivered Wordskii Live, the on-demand video interpreting platform, '
+        'along with the Wordskii on Wheels (WOW) trolleys that run it — portable units deployed '
+        'in hospitals (including NHS maternity wards) giving clinical staff instant access to '
+        'interpreters, including BSL, at the patient\'s bedside. The trolley app is a thin native '
+        'wrapper that boots straight into the core web app, so most of the real engineering work '
+        'was making that handoff and the on-device experience solid on fixed hospital hardware.',
+    appName: 'Wordskii',
+    appTagline:
+        'Linguist booking platform behind Word360\'s interpreting services',
+    appIconPath: 'assets/images/wordskii_icon.png',
+    playStoreUrl:
+        'https://play.google.com/store/apps/details?id=com.wordskii.prod',
   ),
   _Job(
     company: 'Spica Technologies',
@@ -123,9 +157,10 @@ const _jobs = [
         'enterprises including EY, Zurich, Knight Frank, and M&G.',
     fullDetails:
         'Spica Tech is an IoT company specialising in building and facilities management. '
-        'Their Workplace Experience App is a white-label application providing contextual '
-        'and location-aware services including meeting room booking, access control, indoor '
-        'positioning, and colleague finding.\n\n'
+        'Their Workplace Experience App (since rebranded GemEx) is a white-label application '
+        'providing contextual and location-aware services including desk, room, and parking '
+        'booking via interactive floorplans, access control, indoor positioning, and colleague '
+        'finding.\n\n'
         'I was responsible for the development, maintenance, and deployment of their '
         'applications. The app is highly customisable — from look and feel to intricate '
         'rules — for large enterprises such as EY, Zurich, Knight Frank, and M&G.',
@@ -232,14 +267,14 @@ class HomePageContent extends StatelessWidget {
           OutlinedButton.icon(
             icon: const Icon(Icons.extension_outlined, size: 18),
             label: const Text('pub.dev'),
-            onPressed: () =>
-                launchUrlString('https://pub.dev/publishers/sealstudios.co.uk/packages'),
+            onPressed: () => launchUrlString(
+                'https://pub.dev/publishers/sealstudios.co.uk/packages'),
           ),
           OutlinedButton.icon(
             icon: const Icon(Icons.privacy_tip_outlined, size: 18),
             label: const Text('Privacy Policy'),
-            onPressed: () =>
-                launchUrlString('https://www.sealstudios.co.uk/#/privacy_policy'),
+            onPressed: () => launchUrlString(
+                'https://www.sealstudios.co.uk/#/privacy_policy'),
           ),
         ],
       ),
@@ -263,7 +298,8 @@ class _SectionDivider extends StatelessWidget {
         children: [
           Text(
             label,
-            style: context.text.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+            style:
+                context.text.titleLarge?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(width: 16),
           const Expanded(child: Divider(thickness: 1)),
@@ -290,7 +326,8 @@ class _SkillsSection extends StatelessWidget {
         Text(
           'Also experienced with:',
           style: context.text.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.55),
+            color:
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.55),
           ),
         ),
         kSmallMargin,
@@ -331,7 +368,8 @@ class _SkillRow extends StatelessWidget {
             width: 88,
             child: Text(
               skill.name,
-              style: context.text.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+              style:
+                  context.text.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
           Row(
@@ -341,7 +379,9 @@ class _SkillRow extends StatelessWidget {
                 child: Icon(
                   i < skill.level ? Icons.circle : Icons.circle_outlined,
                   size: 10,
-                  color: i < skill.level ? primary : outline.withValues(alpha: 0.35),
+                  color: i < skill.level
+                      ? primary
+                      : outline.withValues(alpha: 0.35),
                 ),
               );
             }),
@@ -350,7 +390,10 @@ class _SkillRow extends StatelessWidget {
           Text(
             skill.label,
             style: context.text.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.55),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.55),
             ),
           ),
         ],
@@ -392,79 +435,175 @@ class _EmploymentTileState extends State<_EmploymentTile> {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Container(
+        padding: const EdgeInsets.only(left: 16),
+        decoration: BoxDecoration(
+          border: Border(left: BorderSide(color: primary, width: 3)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Left accent bar
-            Container(
-              width: 3,
-              decoration: BoxDecoration(
-                color: primary,
-                borderRadius: BorderRadius.circular(2),
+            Text(
+              widget.job.company,
+              style: context.text.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(width: 16),
-            Expanded(
+            const SizedBox(height: 2),
+            Text(
+              '${widget.job.role}  ·  ${widget.job.period}',
+              style: context.text.bodyMedium?.copyWith(
+                color: onSurface.withValues(alpha: 0.6),
+              ),
+            ),
+            const SizedBox(height: 10),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              alignment: Alignment.topCenter,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.job.company,
-                    style: context.text.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
+                  AnimatedCrossFade(
+                    duration: const Duration(milliseconds: 250),
+                    crossFadeState: _expanded
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                    firstChild: Text(
+                      widget.job.summary,
+                      style: context.text.bodyLarge?.copyWith(height: 1.6),
+                    ),
+                    secondChild: Text(
+                      widget.job.fullDetails,
+                      style: context.text.bodyLarge?.copyWith(height: 1.7),
                     ),
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '${widget.job.role}  ·  ${widget.job.period}',
-                    style: context.text.bodyMedium?.copyWith(
-                      color: onSurface.withValues(alpha: 0.6),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                    alignment: Alignment.topCenter,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AnimatedCrossFade(
-                          duration: const Duration(milliseconds: 250),
-                          crossFadeState: _expanded
-                              ? CrossFadeState.showSecond
-                              : CrossFadeState.showFirst,
-                          firstChild: Text(
-                            widget.job.summary,
-                            style: context.text.bodyLarge?.copyWith(height: 1.6),
-                          ),
-                          secondChild: Text(
-                            widget.job.fullDetails,
-                            style: context.text.bodyLarge?.copyWith(height: 1.7),
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        GestureDetector(
-                          onTap: () => setState(() => _expanded = !_expanded),
-                          child: Text(
-                            _expanded ? 'Show less' : 'Read more',
-                            style: context.text.bodyMedium?.copyWith(
-                              color: primary,
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
-                              decorationColor: primary,
-                            ),
-                          ),
-                        ),
-                      ],
+                  const SizedBox(height: 6),
+                  GestureDetector(
+                    onTap: () => setState(() => _expanded = !_expanded),
+                    child: Text(
+                      _expanded ? 'Show less' : 'Read more',
+                      style: context.text.bodyMedium?.copyWith(
+                        color: primary,
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.underline,
+                        decorationColor: primary,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+            if (widget.job.appIconPath != null) ...[
+              const SizedBox(height: 14),
+              _AppBadge(job: widget.job, accentColor: primary),
+            ],
           ],
         ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// App badge (store listing attached to an employment entry)
+// ---------------------------------------------------------------------------
+
+class _AppBadge extends StatelessWidget {
+  const _AppBadge({required this.job, required this.accentColor});
+
+  final _Job job;
+  final Color accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Color.alphaBlend(
+          accentColor.withValues(alpha: 0.06),
+          Theme.of(context).colorScheme.surface,
+        ),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: accentColor.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  job.appIconPath!,
+                  width: 40,
+                  height: 40,
+                  cacheWidth: 80,
+                  cacheHeight: 80,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      job.appName!,
+                      style: context.text.bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    if (job.appTagline != null) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        job.appTagline!,
+                        style: context.text.bodySmall?.copyWith(
+                          color: onSurface.withValues(alpha: 0.6),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+          if (job.playStoreUrl != null || job.appWebsiteUrl != null) ...[
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                if (job.playStoreUrl != null)
+                  OutlinedButton.icon(
+                    icon: const Icon(Icons.android_rounded, size: 16),
+                    label: const Text('Play Store'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: accentColor,
+                      side:
+                          BorderSide(color: accentColor.withValues(alpha: 0.6)),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    onPressed: () => launchUrlString(job.playStoreUrl!),
+                  ),
+                if (job.appWebsiteUrl != null)
+                  OutlinedButton.icon(
+                    icon: const Icon(Icons.language_rounded, size: 16),
+                    label: const Text('Website'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: accentColor,
+                      side:
+                          BorderSide(color: accentColor.withValues(alpha: 0.6)),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    onPressed: () => launchUrlString(job.appWebsiteUrl!),
+                  ),
+              ],
+            ),
+          ],
+        ],
       ),
     );
   }
@@ -495,7 +634,8 @@ class _EducationSection extends StatelessWidget {
         Text(
           'Certificates',
           style: context.text.titleSmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.55),
+            color:
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.55),
             fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
           ),
@@ -556,7 +696,8 @@ class _EducationEntry extends StatelessWidget {
             children: [
               Text(
                 '$title  ·  $year',
-                style: context.text.bodyLarge?.copyWith(fontWeight: FontWeight.w700),
+                style: context.text.bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 6),
               Text(

@@ -43,7 +43,34 @@ class _ProjectsPageState extends State<ProjectsPage> {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  for (final project in kProjects)
+                  Text('Personal Projects', style: context.text.titleLarge),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Built independently, outside of work',
+                    style: context.text.bodyMedium?.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withValues(alpha: 0.5),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  for (final project in kPersonalProjects)
+                    _ProjectCard(project: project),
+                  const SizedBox(height: 20),
+                  Text('Professional Work', style: context.text.titleLarge),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Apps I\'ve built and shipped as part of my day job',
+                    style: context.text.bodyMedium?.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withValues(alpha: 0.5),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  for (final project in kProfessionalProjects)
                     _ProjectCard(project: project),
                   const SizedBox(height: 40),
                 ],
@@ -214,7 +241,10 @@ class _ProjectCardState extends State<_ProjectCard> {
                 Wrap(
                   spacing: 5,
                   runSpacing: 5,
-                  children: project.platforms.map(_platformBadge).toList(),
+                  children: [
+                    if (project.company != null) _companyBadge(project.company!),
+                    ...project.platforms.map(_platformBadge),
+                  ],
                 ),
               ],
             ),
@@ -323,6 +353,32 @@ class _ProjectCardState extends State<_ProjectCard> {
                   onPressed: () => launchUrlString(project.appStoreUrl!),
                 ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _companyBadge(String company) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.95),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.work_outline_rounded, size: 11, color: Colors.black87),
+          const SizedBox(width: 4),
+          Text(
+            'Built at $company',
+            style: const TextStyle(
+              color: Colors.black87,
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.2,
+            ),
           ),
         ],
       ),

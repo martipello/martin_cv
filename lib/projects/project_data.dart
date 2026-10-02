@@ -13,6 +13,7 @@ class ProjectInfo {
     this.websiteUrl,
     this.playStoreUrl,
     this.appStoreUrl,
+    this.company,
   });
 
   final String name;
@@ -26,9 +27,13 @@ class ProjectInfo {
   final String? websiteUrl;
   final String? playStoreUrl;
   final String? appStoreUrl;
+
+  /// Employer this was built for. Null for personal/independent projects —
+  /// set only for professional work, where it's shown as a "Built at X" badge.
+  final String? company;
 }
 
-const kProjects = [
+const kPersonalProjects = [
   ProjectInfo(
     name: 'Pitch-In',
     tagline: 'Team sports management',
@@ -114,3 +119,95 @@ const kProjects = [
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sealstudios.simple_aac',
   ),
 ];
+
+const kProfessionalProjects = [
+  ProjectInfo(
+    name: 'Killik & Co App',
+    tagline: 'Save, Plan, Invest',
+    description:
+        'The client-facing wealth management app for Killik & Co, a financial services firm. As '
+        'Senior Flutter Developer I lead architectural transformation, security hardening, and '
+        'release process improvements, plus a new web-based companion tool that lets the support '
+        'team view the app as the customer sees it.',
+    fullDescription:
+        'The client-facing app for Killik & Co — clients manage ISAs, SIPPs, and general '
+        'investment accounts, trade stocks, and track performance.\n\n'
+        'Architectural Transformation: Led the "Clanker" structural renewal, removing 1.58M lines '
+        'of legacy code and reducing project complexity by 20%.\n\n'
+        'Security & Compliance: Mitigated critical privacy risks around shared-data flaws; '
+        'implemented standardised secure transit (iOS) and disallowed clear-text traffic (Android) '
+        'to meet financial security standards.\n\n'
+        'Support Tooling: Built a read-only web "companion view" of the app for the internal '
+        'support workbench, launched via a one-time impersonation JWT redirect so advisors see '
+        'exactly what the customer sees, with mutating requests silently absorbed and a scoped '
+        'identity token swapped in so advisor- and customer-driven activity stay distinguishable '
+        'in the audit trail. This meant getting the native-first Flutter codebase building for web '
+        'for the first time, replacing platform-locked dependencies with conditional web '
+        'implementations and standing up the Docker/GitLab CI pipeline to deploy it.\n\n'
+        'Process: Shifted delivery from a "Merge-First" to a "Feature-Validation" RC model and a '
+        'new Production/UAT/Staging Git flow, reducing maintenance surface area by 22%.',
+    imagePath: 'assets/images/killik_icon.png',
+    primaryColor: Color(0xff0b3d2e),
+    techTags: ['Flutter', 'Dart', 'Riverpod', 'Docker', 'GitLab CI'],
+    platforms: ['iOS', 'Android'],
+    websiteUrl: 'https://killik.com/',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.killik.mykillik',
+    company: 'Killik & Co',
+  ),
+  ProjectInfo(
+    name: 'GemEx',
+    tagline: 'Workplace experience platform',
+    description:
+        'A white-label workplace experience app used by large enterprises including EY, Zurich, '
+        'Knight Frank, and M&G, covering desk/room/parking booking, access control, indoor '
+        'positioning, and colleague finding. I worked on it across two stints at Spica '
+        'Technologies — originally as Mobile Developer, then returning as Senior Mobile Developer.',
+    fullDescription:
+        'GemEx (originally the Spica Workplace Experience App) is a white-label app for building '
+        'and facilities management, built for large enterprise clients.\n\n'
+        'Features: desk, room, and parking booking via interactive floorplans; hot desking and '
+        'team bookings; access control; indoor positioning and colleague finding — all highly '
+        'customisable per client, from look and feel to intricate booking rules.\n\n'
+        'I was responsible for development, maintenance, and deployment across two stints at '
+        'Spica Technologies, the second with an expanded scope covering architecture planning and '
+        'pull request reviews across the wider engineering team.',
+    imagePath: 'assets/images/gemex_icon.png',
+    primaryColor: Color(0xff0f7b6c),
+    techTags: ['Flutter', 'Dart', 'IoT Integration'],
+    platforms: ['iOS', 'Android'],
+    websiteUrl: 'https://www.spicatech.co.uk/products/book/',
+    playStoreUrl:
+        'https://play.google.com/store/apps/details?id=uk.co.spicatech.luna.apps.spicaluna',
+    company: 'Spica Technologies',
+  ),
+  ProjectInfo(
+    name: 'Wordskii',
+    tagline: 'Linguist booking & on-demand video interpreting',
+    description:
+        'Built from scratch as Lead Mobile Developer for Word360, an interpreting and translation '
+        'company. Wordskii lets linguists manage bookings, calendars, and sign off completed work; '
+        'Wordskii Live and the Wordskii on Wheels (WOW) trolleys give healthcare staff on-demand '
+        'video interpreting, including BSL, at the point of care.',
+    fullDescription:
+        'Wordskii is Word360\'s linguist booking platform, built from nothing for Android and iOS '
+        'using Flutter, including store management, delivery, and analytics.\n\n'
+        'The main app lets linguists manage bookings and calendars, sign off and submit completed '
+        'work, with biometric authentication, offline signing, document uploading, and Google Maps '
+        'integration.\n\n'
+        'I also built and delivered Wordskii Live, the on-demand video interpreting platform, '
+        'along with the Wordskii on Wheels (WOW) trolleys that run it — portable units deployed in '
+        'hospitals (including NHS maternity wards) giving clinical staff instant access to '
+        'interpreters at the patient\'s bedside. The trolley app is a thin native wrapper that '
+        'boots straight into the core web app, so most of the engineering effort went into making '
+        'that handoff and the on-device experience solid on fixed hospital hardware.',
+    imagePath: 'assets/images/wordskii_icon.png',
+    primaryColor: Color(0xff2e9cca),
+    techTags: ['Flutter', 'Dart', 'Firebase', 'Google Maps'],
+    platforms: ['iOS', 'Android'],
+    websiteUrl: 'https://www.word360.co.uk/our-technology/wordskii-wows',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.wordskii.prod',
+    company: 'Word360',
+  ),
+];
+
+const kProjects = [...kPersonalProjects, ...kProfessionalProjects];
