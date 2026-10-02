@@ -187,6 +187,7 @@ class HomePageContent extends StatelessWidget {
             const _SectionDivider(label: 'Skills'),
             const _SkillsSection(),
             const _SectionDivider(label: 'Employment History'),
+            _buildEmploymentIntro(context),
             const _EmploymentSection(),
             const _SectionDivider(label: 'Experience'),
             _buildExperience(context),
@@ -205,9 +206,16 @@ class HomePageContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Hi, I\'m Martin',
-          style: context.text.headlineMedium,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Hi, I\'m Martin',
+              style: context.text.headlineMedium,
+            ),
+            const SizedBox(width: 10),
+            const _WavingHand(),
+          ],
         ),
         kSmallMargin,
         Text(
@@ -220,8 +228,8 @@ class HomePageContent extends StatelessWidget {
         kMediumMargin,
         Text(
           'I\'m a keen problem solver with a love for coding, learning and family. '
-          'I keep up with industry trends and new technologies and have built '
-          'projects with many technologies to solve various problems in varying sectors.',
+          'I keep up with industry trends and new technologies, and I\'ve got a bit of '
+          'a habit of building things just to see if I can.',
           style: context.text.bodyLarge?.copyWith(height: 1.6),
         ),
         kSmallMargin,
@@ -230,6 +238,19 @@ class HomePageContent extends StatelessWidget {
           style: context.text.bodyLarge?.copyWith(height: 1.6),
         ),
       ],
+    );
+  }
+
+  Widget _buildEmploymentIntro(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Text(
+        'Where I\'ve been earning my stripes (and my coffee).',
+        style: context.text.bodyLarge?.copyWith(
+          height: 1.6,
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+        ),
+      ),
     );
   }
 
@@ -254,27 +275,36 @@ class HomePageContent extends StatelessWidget {
         spacing: 12,
         runSpacing: 12,
         children: [
-          FilledButton.icon(
-            icon: const Icon(Icons.code_rounded, size: 18),
-            label: const Text('GitHub'),
-            onPressed: () => launchUrlString('https://github.com/martipello'),
+          _HoverScale(
+            child: FilledButton.icon(
+              icon: const Icon(Icons.code_rounded, size: 18),
+              label: const Text('GitHub'),
+              onPressed: () => launchUrlString('https://github.com/martipello'),
+            ),
           ),
-          OutlinedButton.icon(
-            icon: const Icon(Icons.email_outlined, size: 18),
-            label: const Text('Email'),
-            onPressed: () => launchUrlString('mailto:martinseal1987@gmail.com'),
+          _HoverScale(
+            child: OutlinedButton.icon(
+              icon: const Icon(Icons.email_outlined, size: 18),
+              label: const Text('Email'),
+              onPressed: () =>
+                  launchUrlString('mailto:martinseal1987@gmail.com'),
+            ),
           ),
-          OutlinedButton.icon(
-            icon: const Icon(Icons.extension_outlined, size: 18),
-            label: const Text('pub.dev'),
-            onPressed: () => launchUrlString(
-                'https://pub.dev/publishers/sealstudios.co.uk/packages'),
+          _HoverScale(
+            child: OutlinedButton.icon(
+              icon: const Icon(Icons.extension_outlined, size: 18),
+              label: const Text('pub.dev'),
+              onPressed: () => launchUrlString(
+                  'https://pub.dev/publishers/sealstudios.co.uk/packages'),
+            ),
           ),
-          OutlinedButton.icon(
-            icon: const Icon(Icons.privacy_tip_outlined, size: 18),
-            label: const Text('Privacy Policy'),
-            onPressed: () => launchUrlString(
-                'https://www.sealstudios.co.uk/#/privacy_policy'),
+          _HoverScale(
+            child: OutlinedButton.icon(
+              icon: const Icon(Icons.privacy_tip_outlined, size: 18),
+              label: const Text('Privacy Policy'),
+              onPressed: () => launchUrlString(
+                  'https://www.sealstudios.co.uk/#/privacy_policy'),
+            ),
           ),
         ],
       ),
@@ -310,18 +340,143 @@ class _SectionDivider extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
+// Waving hand (plays a couple of waves on load, then pauses and repeats)
+// ---------------------------------------------------------------------------
+
+class _WavingHand extends StatefulWidget {
+  const _WavingHand();
+
+  @override
+  State<_WavingHand> createState() => _WavingHandState();
+}
+
+class _WavingHandState extends State<_WavingHand>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 350),
+    );
+    _loop();
+  }
+
+  Future<void> _loop() async {
+    while (mounted) {
+      for (var i = 0; i < 3; i++) {
+        if (!mounted) return;
+        await _controller.forward(from: 0);
+        if (!mounted) return;
+        await _controller.reverse();
+      }
+      if (!mounted) return;
+      await Future.delayed(const Duration(seconds: 4));
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.rotate(
+          angle: _controller.value * 0.5,
+          alignment: Alignment.bottomCenter,
+          child: child,
+        );
+      },
+      child: const Text('👋', style: TextStyle(fontSize: 26)),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Hover scale (no-op on touch; gentle pop on desktop hover)
+// ---------------------------------------------------------------------------
+
+class _HoverScale extends StatefulWidget {
+  const _HoverScale({required this.child});
+  final Widget child;
+
+  @override
+  State<_HoverScale> createState() => _HoverScaleState();
+}
+
+class _HoverScaleState extends State<_HoverScale> {
+  bool _hovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovering = true),
+      onExit: (_) => setState(() => _hovering = false),
+      child: AnimatedScale(
+        scale: _hovering ? 1.06 : 1.0,
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.easeOut,
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Skills
 // ---------------------------------------------------------------------------
 
-class _SkillsSection extends StatelessWidget {
+class _SkillsSection extends StatefulWidget {
   const _SkillsSection();
+
+  @override
+  State<_SkillsSection> createState() => _SkillsSectionState();
+}
+
+class _SkillsSectionState extends State<_SkillsSection>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500 + _mainSkills.length * 90),
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ..._mainSkills.map((s) => _SkillRow(skill: s)),
+        for (var i = 0; i < _mainSkills.length; i++)
+          _SkillRow(
+            skill: _mainSkills[i],
+            animation: CurvedAnimation(
+              parent: _controller,
+              curve: Interval(
+                i / _mainSkills.length * 0.7,
+                i / _mainSkills.length * 0.7 + 0.3,
+                curve: Curves.easeOutBack,
+              ),
+            ),
+          ),
         kMediumMargin,
         Text(
           'Also experienced with:',
@@ -336,11 +491,13 @@ class _SkillsSection extends StatelessWidget {
           runSpacing: 8,
           children: _otherSkills
               .map(
-                (s) => Chip(
-                  label: Text(s, style: const TextStyle(fontSize: 12)),
-                  padding: EdgeInsets.zero,
-                  visualDensity: VisualDensity.compact,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                (s) => _HoverScale(
+                  child: Chip(
+                    label: Text(s, style: const TextStyle(fontSize: 12)),
+                    padding: EdgeInsets.zero,
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
                 ),
               )
               .toList(),
@@ -352,51 +509,66 @@ class _SkillsSection extends StatelessWidget {
 }
 
 class _SkillRow extends StatelessWidget {
-  const _SkillRow({required this.skill});
+  const _SkillRow({required this.skill, required this.animation});
   final _Skill skill;
+  final Animation<double> animation;
 
   @override
   Widget build(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;
     final outline = Theme.of(context).colorScheme.outline;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 88,
-            child: Text(
-              skill.name,
-              style:
-                  context.text.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, child) {
+        // easeOutBack overshoots past 1.0, which Opacity won't accept — clamp
+        // it for fade-in while leaving the slide offset free to bounce.
+        return Opacity(
+          opacity: animation.value.clamp(0.0, 1.0),
+          child: Transform.translate(
+            offset: Offset((1 - animation.value) * -24, 0),
+            child: child,
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 88,
+              child: Text(
+                skill.name,
+                style: context.text.bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
             ),
-          ),
-          Row(
-            children: List.generate(5, (i) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 4),
-                child: Icon(
-                  i < skill.level ? Icons.circle : Icons.circle_outlined,
-                  size: 10,
-                  color: i < skill.level
-                      ? primary
-                      : outline.withValues(alpha: 0.35),
-                ),
-              );
-            }),
-          ),
-          const SizedBox(width: 12),
-          Text(
-            skill.label,
-            style: context.text.bodyMedium?.copyWith(
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.55),
+            Row(
+              children: List.generate(5, (i) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: Icon(
+                    i < skill.level ? Icons.circle : Icons.circle_outlined,
+                    size: 10,
+                    color: i < skill.level
+                        ? primary
+                        : outline.withValues(alpha: 0.35),
+                  ),
+                );
+              }),
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Text(
+              skill.label,
+              style: context.text.bodyMedium?.copyWith(
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.55),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -427,78 +599,86 @@ class _EmploymentTile extends StatefulWidget {
 
 class _EmploymentTileState extends State<_EmploymentTile> {
   bool _expanded = false;
+  bool _hovering = false;
 
   @override
   Widget build(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;
     final onSurface = Theme.of(context).colorScheme.onSurface;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Container(
-        padding: const EdgeInsets.only(left: 16),
-        decoration: BoxDecoration(
-          border: Border(left: BorderSide(color: primary, width: 3)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.job.company,
-              style: context.text.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovering = true),
+      onExit: (_) => setState(() => _hovering = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+        transform: Matrix4.translationValues(_hovering ? 4 : 0, 0, 0),
+        padding: const EdgeInsets.only(bottom: 24),
+        child: Container(
+          padding: const EdgeInsets.only(left: 16),
+          decoration: BoxDecoration(
+            border: Border(left: BorderSide(color: primary, width: 3)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.job.company,
+                style: context.text.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              '${widget.job.role}  ·  ${widget.job.period}',
-              style: context.text.bodyMedium?.copyWith(
-                color: onSurface.withValues(alpha: 0.6),
+              const SizedBox(height: 2),
+              Text(
+                '${widget.job.role}  ·  ${widget.job.period}',
+                style: context.text.bodyMedium?.copyWith(
+                  color: onSurface.withValues(alpha: 0.6),
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              alignment: Alignment.topCenter,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AnimatedCrossFade(
-                    duration: const Duration(milliseconds: 250),
-                    crossFadeState: _expanded
-                        ? CrossFadeState.showSecond
-                        : CrossFadeState.showFirst,
-                    firstChild: Text(
-                      widget.job.summary,
-                      style: context.text.bodyLarge?.copyWith(height: 1.6),
-                    ),
-                    secondChild: Text(
-                      widget.job.fullDetails,
-                      style: context.text.bodyLarge?.copyWith(height: 1.7),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  GestureDetector(
-                    onTap: () => setState(() => _expanded = !_expanded),
-                    child: Text(
-                      _expanded ? 'Show less' : 'Read more',
-                      style: context.text.bodyMedium?.copyWith(
-                        color: primary,
-                        fontWeight: FontWeight.w600,
-                        decoration: TextDecoration.underline,
-                        decorationColor: primary,
+              const SizedBox(height: 10),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                alignment: Alignment.topCenter,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AnimatedCrossFade(
+                      duration: const Duration(milliseconds: 250),
+                      crossFadeState: _expanded
+                          ? CrossFadeState.showSecond
+                          : CrossFadeState.showFirst,
+                      firstChild: Text(
+                        widget.job.summary,
+                        style: context.text.bodyLarge?.copyWith(height: 1.6),
+                      ),
+                      secondChild: Text(
+                        widget.job.fullDetails,
+                        style: context.text.bodyLarge?.copyWith(height: 1.7),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 6),
+                    GestureDetector(
+                      onTap: () => setState(() => _expanded = !_expanded),
+                      child: Text(
+                        _expanded ? 'Show less' : 'Read more',
+                        style: context.text.bodyMedium?.copyWith(
+                          color: primary,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
+                          decorationColor: primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (widget.job.appIconPath != null) ...[
-              const SizedBox(height: 14),
-              _AppBadge(job: widget.job, accentColor: primary),
+              if (widget.job.appIconPath != null) ...[
+                const SizedBox(height: 14),
+                _AppBadge(job: widget.job, accentColor: primary),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
