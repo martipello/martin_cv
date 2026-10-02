@@ -75,7 +75,14 @@ const _jobs = [
         'Data Recovery: Restored a 6-month Firebase Analytics blackout, re-establishing 100% '
         'visibility into user behaviour and feature ROI for executive decision-making.\n\n'
         'Performance: Delivered an authentication refactor resulting in 23% fewer login queries '
-        'and a 60% reduction in agent support time for client access issues.',
+        'and a 60% reduction in agent support time for client access issues.\n\n'
+        'Support Tooling: Built a read-only web "companion view" of the app for the internal '
+        'support workbench, launched via a one-time impersonation JWT redirect so advisors see '
+        'exactly what the customer sees, with mutating requests silently absorbed and a scoped '
+        'identity token swapped in so advisor- and customer-driven activity stay distinguishable '
+        'in the audit trail. Also got the native-first Flutter codebase building for web for the '
+        'first time, replacing platform-locked dependencies with conditional web implementations '
+        'and standing up the Docker/GitLab CI pipeline to deploy it.',
   ),
   _Job(
     company: 'Spica Technologies',
